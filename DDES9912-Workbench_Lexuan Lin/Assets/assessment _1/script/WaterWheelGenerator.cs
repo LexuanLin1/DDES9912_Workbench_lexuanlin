@@ -7,6 +7,7 @@ public class WaterWheelGenerator : MonoBehaviour
     public Material emissiveMat;
     public float fadeSpeed = 2f;
 
+
     void Update()
     {
         if (wheelBody == null) return;
@@ -19,11 +20,21 @@ public class WaterWheelGenerator : MonoBehaviour
 
         if (emissiveMat != null)
         {
-            Color c = Color.Lerp(Color.black, Color.yellow, intensity / 4f);
-            emissiveMat.SetColor("_EmissionColor", c * intensity);
+            Color dimColor = Color.red;
+            Color brightColor = Color.yellow;
+
+            float t = Mathf.Clamp01(intensity / 4f);
+
+            Color c = Color.Lerp(dimColor, brightColor, t);
+
+            float glow = Mathf.Lerp(0.5f, 4f, t);
+
+            emissiveMat.SetColor("_EmissionColor", c * glow);
         }
 
+
         wheelBody.angularDamping = Mathf.Lerp(0.2f, 2f, lampLight.intensity / 4f);
+       
     }
 }
 
